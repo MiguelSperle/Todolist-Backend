@@ -15,10 +15,12 @@ import java.util.List;
 
 @Table(name = "users")
 @Entity(name = "users")
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class UsersEntity implements UserDetails {
+
     @Id @GeneratedValue(strategy = GenerationType.UUID)
 
     private String id;
@@ -32,9 +34,10 @@ public class UsersEntity implements UserDetails {
     private LocalDateTime createdAt;
 
 
-    public UsersEntity(String email, String name, String password) {
+    public UsersEntity(String email, String name, String avatar, String password) {
         this.email = email;
         this.name = name;
+        this.avatar = avatar;
         this.password = password;
     }
 
@@ -45,7 +48,7 @@ public class UsersEntity implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override
