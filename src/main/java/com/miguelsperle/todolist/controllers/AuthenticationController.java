@@ -3,10 +3,12 @@ package com.miguelsperle.todolist.controllers;
 import com.auth0.jwt.JWT;
 import com.miguelsperle.todolist.dtos.auth.AuthenticationDTO;
 import com.miguelsperle.todolist.dtos.auth.LoginResponseDTO;
-import com.miguelsperle.todolist.dtos.user.RegisterUserDTO;
+import com.miguelsperle.todolist.dtos.auth.RegisterUserDTO;
+import com.miguelsperle.todolist.dtos.user.UserResponseDTO;
 import com.miguelsperle.todolist.entities.UsersEntity;
 import com.miguelsperle.todolist.infra.security.TokenService;
 import com.miguelsperle.todolist.response.ResponseHandler;
+import com.miguelsperle.todolist.response.UserResponse;
 import com.miguelsperle.todolist.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -79,17 +81,12 @@ public class AuthenticationController {
         return ResponseHandler.generateResponse("Sua conta foi criada.", HttpStatus.CREATED);
     }
 
-    @GetMapping("/user") // TESTE
-    public ResponseEntity<Object> user(HttpServletRequest request){
-        var authHeader = request.getHeader("Authorization");
+    @GetMapping("/user")
+    public ResponseEntity<Object> user(HttpServletRequest request) {
+        var user = this.userService.getUser(); // Pegando as info do usuário logado
 
-        var token = authHeader.replace("Bearer ", "");
+        var userObject = UserResponse.generateResponse(new UserResponseDTO(user.getId(), user.getName(), user.getUsername(), user.getAvatar()));
 
-        var email = JWT.decode(token).getSubject();
-
-        var user = this.userService.findUserByEmail(email);
-        System.out.println(user.getName());
-
-        return ResponseEntity.ok(user);
+        return ResponseHandler.generateResponse(userObject, HttpStatus.OK);
     }
 }

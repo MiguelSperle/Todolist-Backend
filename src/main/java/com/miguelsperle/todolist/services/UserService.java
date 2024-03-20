@@ -28,10 +28,4 @@ public class UserService  {
     public UsersEntity saveUser(UsersEntity usersEntity){
         return this.userRepository.save(usersEntity);
     }
-
-    public Optional<UsersEntity> findUserById(String id){
-        var user = this.userRepository.findById(id);
-
-        return user;
-    }
 }

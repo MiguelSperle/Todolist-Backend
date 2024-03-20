@@ -1,4 +1,4 @@
-package com.miguelsperle.todolist.dtos.user;
+package com.miguelsperle.todolist.dtos.auth;
 
 import jakarta.validation.constraints.NotBlank;
 

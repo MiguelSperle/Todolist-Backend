@@ -1,9 +1,11 @@
 package com.miguelsperle.todolist.entities;
 
-import com.miguelsperle.todolist.dtos.user.RegisterUserDTO;
+
 import jakarta.persistence.*;
-import lombok.*;
-import org.apache.catalina.User;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,7 +23,8 @@ import java.util.List;
 @EqualsAndHashCode(of = "id")
 public class UsersEntity implements UserDetails {
 
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
 
     private String id;
     private String name;
