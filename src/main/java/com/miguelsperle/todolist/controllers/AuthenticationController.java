@@ -22,6 +22,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 
 @RestController
 @RequestMapping("/auth")
@@ -47,6 +49,14 @@ public class AuthenticationController {
 
         if (user == null) {
             return ResponseHandler.generateResponse("Email e/ou senha invalidos.", HttpStatus.NOT_FOUND);
+        }
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        var verificationPassword = passwordEncoder.matches(authenticationDTO.password(), user.getPassword());
+
+        if (!verificationPassword) {
+            return ResponseHandler.generateResponse("Email e/ou senha invalidos.", HttpStatus.UNAUTHORIZED);
         }
 
 
