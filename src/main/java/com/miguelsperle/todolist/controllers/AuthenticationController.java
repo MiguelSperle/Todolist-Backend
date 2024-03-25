@@ -1,7 +1,6 @@
 package com.miguelsperle.todolist.controllers;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
+
 import com.miguelsperle.todolist.dtos.auth.AuthenticationDTO;
 import com.miguelsperle.todolist.dtos.auth.RegisterUserDTO;
 import com.miguelsperle.todolist.dtos.user.UserResponseDTO;
@@ -11,7 +10,6 @@ import com.miguelsperle.todolist.response.ResponseHandler;
 import com.miguelsperle.todolist.response.UserResponse;
 import com.miguelsperle.todolist.services.UserService;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +41,7 @@ public class AuthenticationController {
         if (bindingResult.hasErrors()) {
             return ResponseHandler.generateResponse(String.valueOf(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).findFirst().get()), HttpStatus.BAD_REQUEST);
         }
-        System.out.println(authenticationDTO);
+
         var user = this.userService.findUserByEmail(authenticationDTO.email());
 
 
@@ -94,7 +92,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<Object> user(HttpServletRequest request) {
+    public ResponseEntity<Object> user() {
         var user = this.userService.getUser(); // Pegando as info do usuário logado
 
         var userObject = UserResponse.generateResponse(new UserResponseDTO(user.getId(), user.getName(), user.getUsername(), user.getAvatar()));
