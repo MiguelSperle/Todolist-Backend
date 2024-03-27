@@ -105,7 +105,7 @@ public class AuthenticationController {
     public ResponseEntity<Object> user() {
         var user = this.userService.getUser(); // Pegando as info do usuário logado
 
-        var userObject = UserResponse.generateResponse(new UserResponseDTO(user.getId(), user.getName(), user.getUsername(), user.getAvatar()));
+        var userObject = new UserResponseDTO(user.getId(), user.getName(), user.getUsername(), user.getAvatar());
 
         return ResponseHandler.generateResponse(userObject, HttpStatus.OK);
     }

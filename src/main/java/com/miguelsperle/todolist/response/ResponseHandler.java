@@ -31,6 +31,4 @@ public class ResponseHandler {
 
         return new ResponseEntity<Object>(map,status);
     }
-
-
 }
