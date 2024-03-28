@@ -48,7 +48,7 @@ public class TodoController {
     public ResponseEntity<Object> getAllTodos(){
         var userId = this.userService.getUser().getId();
 
-        return ResponseHandler.generateResponse("Busca realizada com sucesso", HttpStatus.OK, this.todoService.getAllTodos(userId));
+        return ResponseHandler.generateResponse(this.todoService.getAllTodos(userId), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
