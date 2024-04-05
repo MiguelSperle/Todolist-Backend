@@ -1,0 +1,9 @@
+CREATE TABLE todos (
+   id VARCHAR(255) NOT NULL PRIMARY KEY,
+   title VARCHAR(255) NOT NULL,
+   description TEXT NOT NULL,
+   completed BOOLEAN NOT NULL DEFAULT false,
+   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+   user_id VARCHAR(255) NOT NULL,
+   CONSTRAINT user_id FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+);
