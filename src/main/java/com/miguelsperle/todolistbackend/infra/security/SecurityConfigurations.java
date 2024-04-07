@@ -20,7 +20,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
-
     @Autowired
     private SecurityFilter securityFilter;
 
@@ -28,12 +27,10 @@ public class SecurityConfigurations {
     @Qualifier("customAuthenticationEntryPoint")
     private AuthenticationEntryPoint authenticationEntryPoint;
 
-    // SecurityFilterChain faz a validação para ver se o usuário está apto a fazer quaisquer requisições
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // STATELESS são aplicações que não armazenam nenhuma informação de controle de estado de interação, padrão REST API
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()

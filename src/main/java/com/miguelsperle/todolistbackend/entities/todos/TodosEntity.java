@@ -24,13 +24,12 @@ public class TodosEntity {
     @Column(nullable = false)
     private String description;
 
-    @Column(name = "completed", nullable = false) // Acessa uma coluna especifica na tabela
+    @Column(nullable = false)
     private boolean completed;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @OneToOne
     @JoinColumn(name = "user_id", nullable = false) // Relacionamentos entre entidades
     private String userId;
 }

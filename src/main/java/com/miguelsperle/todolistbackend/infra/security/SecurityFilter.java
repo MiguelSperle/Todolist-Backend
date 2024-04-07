@@ -1,6 +1,8 @@
 package com.miguelsperle.todolistbackend.infra.security;
 
+import com.miguelsperle.todolistbackend.entities.users.UsersEntity;
 import com.miguelsperle.todolistbackend.repositories.UsersRepository;
+import com.miguelsperle.todolistbackend.services.UsersService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -19,7 +21,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SecurityFilter extends OncePerRequestFilter {
     private final TokenService tokenService;
-
     private final UsersRepository usersRepository;
 
     @Override
@@ -27,8 +28,8 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = this.recoverToken(request);
 
         if (token != null) {
-            var email = tokenService.validateToken(token);
-            Optional<UserDetails> user = this.usersRepository.findByEmail(email);
+            var email = this.tokenService.validateToken(token);
+            Optional<UsersEntity> user = this.usersRepository.findByEmail(email);
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.<java.util.Collection<? extends org.springframework.security.core.GrantedAuthority>>map(UserDetails::getAuthorities).orElse(null));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
@@ -36,8 +37,6 @@ public class SecurityFilter extends OncePerRequestFilter {
     }
 
     private String recoverToken(HttpServletRequest request) {
-        // Método abaixo equivale ao passar e pegar o token a partir do withCredentials ( Passa o token no headers de forma automatica )
-
         if (request.getCookies() == null) {
             return null;
         }
@@ -48,13 +47,5 @@ public class SecurityFilter extends OncePerRequestFilter {
             }
         }
         return null;
-
-        // Método comentado abaixo equivale ao método padrão do Springf Security ( Tem que passar o token no headers de toda request de forma manual )
-
-        // var authHeader = request.getHeader("Authorization");
-
-        // if (authHeader == null) return null;
-
-        // return authHeader.replace("Bearer ", "");
     }
 }
