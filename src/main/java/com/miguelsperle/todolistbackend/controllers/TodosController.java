@@ -44,4 +44,11 @@ public class TodosController {
     public ResponseEntity<Object> allTodos(){
         return ResponseHandler.generateResponse(this.todosService.getAllTodos(), HttpStatus.OK);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Object> deleteTodo(@PathVariable String id){
+        this.todosService.deleteTodo(id);
+
+        return ResponseHandler.generateResponse("Todo deleted successfully", HttpStatus.OK);
+    }
 }

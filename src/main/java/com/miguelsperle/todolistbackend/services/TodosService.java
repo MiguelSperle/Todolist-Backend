@@ -66,4 +66,10 @@ public class TodosService {
                 todoEntity.isCompleted(),
                 todoEntity.getCreatedAt())).toList(); // Transform to a list again
     }
+
+    public void deleteTodo(String id){
+        TodosEntity currentTodo = this.verificationUserIdAuthenticatedMatchesTodoOwnerId(id);
+
+        this.todosRepository.deleteById(id);
+    }
 }
