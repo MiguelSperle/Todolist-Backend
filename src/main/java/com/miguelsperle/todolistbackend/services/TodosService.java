@@ -28,7 +28,7 @@ public class TodosService {
         newTodo.setDescription(createTodoDTO.description());
         newTodo.setCreatedAt(LocalDateTime.now());
         newTodo.setCompleted(false);
-        newTodo.setUserId(this.usersService.getUserAuthenticated().get().getId());
+        newTodo.setUser(this.usersService.getUserAuthenticated().get());
 
         this.todosRepository.save(newTodo);
     }
@@ -51,7 +51,7 @@ public class TodosService {
 
         UsersEntity user = this.usersService.getUserAuthenticated().get();
 
-        if(!Objects.equals(user.getId(), currentTodo.getUserId())) throw new TaskUpdateDeniedExecption("Task not allowed");
+        if(!Objects.equals(user.getId(), currentTodo.getUser().getId())) throw new TaskUpdateDeniedExecption("Task not allowed");
 
         return currentTodo;
     }

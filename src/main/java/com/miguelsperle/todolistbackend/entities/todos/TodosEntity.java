@@ -1,5 +1,6 @@
 package com.miguelsperle.todolistbackend.entities.todos;
 
+import com.miguelsperle.todolistbackend.entities.users.UsersEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class TodosEntity {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false) // Relacionamentos entre entidades
-    private String userId;
+    private UsersEntity user;
 }
