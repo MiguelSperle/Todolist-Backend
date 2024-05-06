@@ -2,6 +2,7 @@ package com.miguelsperle.todolistbackend.services;
 
 import com.miguelsperle.todolistbackend.dtos.todos.CreateTodoDTO;
 import com.miguelsperle.todolistbackend.dtos.todos.TodoResponseDTO;
+import com.miguelsperle.todolistbackend.dtos.todos.UpdateTaskCompletionStatusDTO;
 import com.miguelsperle.todolistbackend.dtos.todos.UpdateTodoDTO;
 import com.miguelsperle.todolistbackend.entities.todos.TodosEntity;
 import com.miguelsperle.todolistbackend.entities.todos.execptions.TaskUpdateDeniedExecption;
@@ -71,5 +72,13 @@ public class TodosService {
         TodosEntity currentTodo = this.verificationUserIdAuthenticatedMatchesTodoOwnerId(id);
 
         this.todosRepository.deleteById(id);
+    }
+
+    public void updateTaskCompletionStatus(String id, UpdateTaskCompletionStatusDTO updateTaskCompletionStatusDTO){
+        TodosEntity currentTodo = this.verificationUserIdAuthenticatedMatchesTodoOwnerId(id);
+
+        currentTodo.setCompleted(updateTaskCompletionStatusDTO.completed());
+
+        this.todosRepository.save(currentTodo);
     }
 }

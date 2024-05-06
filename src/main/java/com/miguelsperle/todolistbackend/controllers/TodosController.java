@@ -1,6 +1,7 @@
 package com.miguelsperle.todolistbackend.controllers;
 
 import com.miguelsperle.todolistbackend.dtos.todos.CreateTodoDTO;
+import com.miguelsperle.todolistbackend.dtos.todos.UpdateTaskCompletionStatusDTO;
 import com.miguelsperle.todolistbackend.dtos.todos.UpdateTodoDTO;
 import com.miguelsperle.todolistbackend.response.ResponseHandler;
 import com.miguelsperle.todolistbackend.services.TodosService;
@@ -50,5 +51,16 @@ public class TodosController {
         this.todosService.deleteTodo(id);
 
         return ResponseHandler.generateResponse("Todo deleted successfully", HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{id}/completion")
+    public ResponseEntity<Object> updateTaskCompletionStatus(@PathVariable String id, @RequestBody @Valid UpdateTaskCompletionStatusDTO updateTaskCompletionStatusDTO, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            return ResponseHandler.generateResponse(String.valueOf(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).findFirst().get()), HttpStatus.BAD_REQUEST);
+        }
+
+        this.todosService.updateTaskCompletionStatus(id, updateTaskCompletionStatusDTO);
+
+        return ResponseHandler.generateResponse("Status todo updated successfully", HttpStatus.OK);
     }
 }
